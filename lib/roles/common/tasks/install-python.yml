@@ -1,6 +1,16 @@
-- name: Install Python2 for Ubuntu
+- name: Install Python3
   raw: "{{ item }}"
   loop:
-    - sudo apt-get update
-    - sudo apt-get -y install python-minimal
+    - yum install -y python3
+    - yum install -y libselinux-python3
   ignore_errors: yes
+  args:
+    executable: /bin/bash
+
+- name: test
+  shell: |
+   echo "local_cache_path" {{local_cache_path}}
+  register: say_hi
+
+- debug: var=say_hi.stdout
+

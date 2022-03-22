@@ -115,3 +115,33 @@ After the playbook done successfully, your legacy cluster configuration and Etcd
 - [x] Install main stream CNI plugin
 - [x] Parse coredns image from configuration
 - [ ] Compatible with `kubeadm`
+
+## 执行脚本
+
+```shell
+
+harbor.cloud2go.cn/test/simple-kube:v1.16
+
+docker build -t harbor.cloud2go.cn/test/simple-kube:v1.16 .
+
+useradd test
+
+passwd test
+
+chmod u-w /etc/sudoers
+
+test ALL=(ALL) NOPASSWD: ALL
+
+
+docker cp on-prem-cache/ d23f614ac24e:/simple-kube/lib/ 
+docker cp releases/ d23f614ac24e:/simple-kube/lib/
+
+
+ansible-playbook -i inventory/sample-1.16 clean-cluster.yml -b 
+
+ansible-playbook -i inventory/sample-1.16 -b deploy-cluster.yml -vvv -e ansible_python_interpreter=python3
+
+```
+
+
+

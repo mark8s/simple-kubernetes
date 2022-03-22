@@ -1,9 +1,14 @@
 - name: Install rsync for CentOS
-  package:
-    name: rsync
-    state: present
+  shell: |
+    yum install -y rsync
   when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
   delegate_to: "{{ item }}"
+  with_inventory_hostnames:
+  - kubernetes_nodes
+
+- name: Install sshpass
+  shell: |
+    yum install -y sshpass
   with_inventory_hostnames:
   - kubernetes_nodes
 
